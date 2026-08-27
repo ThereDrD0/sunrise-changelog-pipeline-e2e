@@ -1,19 +1,26 @@
-Entries:
-- author: FishBroken
-  time: '2026-08-16T10:30:08+00:00'
-  changes:
-  - type: Add
-    message: Добавлена рыбная карта
-    id: 1
+﻿Entries:
 - author: FishValid
   time: '2026-08-16T11:30:08+00:00'
   changes:
   - type: Fix
     message: Исправлена рыбная карта
   id: 1
+- author: FishBroken
+  time: '2026-08-16T10:30:08+00:00'
+  changes:
+  - type: Add
+    message: Добавлена рыбная карта
+  id: 2
 - author: FishDuplicate
   time: '2026-08-16T12:30:08+00:00'
   changes:
   - type: Tweak
     message: Изменена рыбная карта
-  id: 1
+  id: 3
+- author: E2E-Bot
+  time: '2026-08-27T14:00:58.8170700+00:00'
+  changes:
+  - type: Fix
+    message: Проверка автоматического обновления чейнжлога
+  id: 4
+  url: https://github.com/ThereDrD0/sunrise-changelog-pipeline-e2e/actions/runs/33079799095
