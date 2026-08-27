@@ -1,7 +1,14 @@
-Entries:
+﻿Entries:
 - author: SunriseValid
   time: '2026-08-16T10:30:08+00:00'
   changes:
   - type: Add
     message: Добавлено обновление Sunrise
   id: 1
+- author: E2E-Bot
+  time: '2026-08-27T14:01:37.0063420+00:00'
+  changes:
+  - type: Fix
+    message: Проверка автоматического обновления чейнжлога
+  id: 2
+  url: https://github.com/ThereDrD0/sunrise-changelog-pipeline-e2e/actions/runs/33079946067
