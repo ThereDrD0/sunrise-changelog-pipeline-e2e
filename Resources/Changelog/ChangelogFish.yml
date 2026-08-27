@@ -1,0 +1,19 @@
+Entries:
+- author: FishBroken
+  time: '2026-08-16T10:30:08+00:00'
+  changes:
+  - type: Add
+    message: Добавлена рыбная карта
+    id: 1
+- author: FishValid
+  time: '2026-08-16T11:30:08+00:00'
+  changes:
+  - type: Fix
+    message: Исправлена рыбная карта
+  id: 1
+- author: FishDuplicate
+  time: '2026-08-16T12:30:08+00:00'
+  changes:
+  - type: Tweak
+    message: Изменена рыбная карта
+  id: 1
