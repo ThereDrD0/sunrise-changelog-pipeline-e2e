@@ -226,6 +226,7 @@ def validate_changed_changelog_files(pull_request: dict[str, Any]) -> None:
     failed = False
     for path, issues in reports:
         if not issues:
+            report_status("success", f"{path}: структура чейнжлога корректна, авторемонт не требуется.")
             write_validation_summary(
                 f"Структура {path}",
                 "✅ Структура чейнжлога корректна, авторемонт не требуется.",
