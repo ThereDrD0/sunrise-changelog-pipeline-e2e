@@ -65,8 +65,11 @@ MEDIA_MARKDOWN_RE = re.compile(r"^!?\[([^\]]*)\]\(\s*([^()\s]+)\s*\)$")
 MEDIA_URL_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://\S+$")
 MARKDOWN_HEADER_RE = re.compile(r"^[ \t]{0,3}(#{1,6})[ \t]+(.+?)[ \t]*#*[ \t]*$")
 MEDIA_SECTION_TITLE_RE = re.compile(
-    r"^(?:медиа|media)(?:\s*\([^\r\n|]*\))?"
-    r"(?:\s*\|\s*(?:медиа|media)(?:\s*\([^\r\n|]*\))?)?$",
+    r"^(?:медиа|media)(?=$|[\s(:/|—-])",
+    re.IGNORECASE,
+)
+MEDIA_SECTION_MARKER_RE = re.compile(
+    r"^\s*<!--\s*changelog-media-section\s*-->\s*$",
     re.IGNORECASE,
 )
 END_MARKER_RE = re.compile(r"^\s*:end-cl:\s*$", re.IGNORECASE)
@@ -440,15 +443,26 @@ def parse_media_value(value: str) -> dict[str, Any]:
 
 
 def parse_pr_media_section(body: str | None) -> list[dict[str, Any]]:
-    text = _mask_ignored_text(body or "")
+    source = body or ""
+    marker_lines = {
+        index
+        for index, line in enumerate(source.splitlines())
+        if MEDIA_SECTION_MARKER_RE.match(line)
+    }
+    text = _mask_ignored_text(source)
     media: list[dict[str, Any]] = []
     pending_description: list[str] = []
     in_media_section = False
 
-    for source_line in text.splitlines():
+    for line_index, source_line in enumerate(text.splitlines()):
         had_ignored_text = COMMENT_PLACEHOLDER in source_line
         line = source_line.replace(COMMENT_PLACEHOLDER, "")
         heading = MARKDOWN_HEADER_RE.match(line)
+
+        if line_index in marker_lines:
+            in_media_section = True
+            pending_description.clear()
+            continue
 
         if not in_media_section:
             if MARKER_RE.match(line):
@@ -456,7 +470,7 @@ def parse_pr_media_section(body: str | None) -> list[dict[str, Any]]:
             if (
                 heading is not None
                 and len(heading.group(1)) == 2
-                and MEDIA_SECTION_TITLE_RE.fullmatch(heading.group(2).strip())
+                and MEDIA_SECTION_TITLE_RE.match(heading.group(2).strip())
             ):
                 in_media_section = True
             continue
